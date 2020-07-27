@@ -28,6 +28,8 @@ namespace H2h.ElasticSearch.Model.IntakeModel
 
         public class ContextDto
         {
+            public User User { get; set; }
+
             public Dictionary<string, string> Tags { get; set; }
         }
     }

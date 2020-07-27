@@ -45,7 +45,9 @@ namespace H2h.RubberBand.Database.Crud
                 TransactionType = transaction.Type,
                 Id = transaction.Id,
                 Data = transaction.Data,
-                UserId = transaction.User,
+                UserId = transaction.UserId,
+                UserName = transaction.UserName,
+                UserEmail = transaction.UserEmail,
                 App = transaction.App
             };
             context.Add(transactionEntity);

@@ -89,6 +89,8 @@ namespace H2h.RubberBand.Database.Entities
         public string RemoteHost { get; set; }
 
         public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
 
         public decimal Duration { get; set; }
 

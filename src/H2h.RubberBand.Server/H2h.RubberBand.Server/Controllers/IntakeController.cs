@@ -174,12 +174,15 @@ namespace H2h.RubberBand.Server.Controllers
                     var errorDetailsJson = errorSet.Transaction?.ToString();
                     var transactionInfo = JsonConvert.DeserializeObject<TransactionDto.TransactionDtoInternal>(errorDetailsJson, new ApmDateTimeConverter());
                     time = transactionInfo.Timestamp;
+
                     var tags = transactionInfo.Context?.Tags ?? new Dictionary<string, string>();
                     var dataDb = new TransactionData()
                     {
                         Time = time,
                         Host = tags.ContainsKey("host") ? tags["host"] : metadata?.Metadata?.System.HostName,
-                        User = tags.ContainsKey("user") ? tags["user"] : "(Vacío)",
+                        UserName = transactionInfo.Context?.User?.UserName ?? "",
+                        UserEmail = transactionInfo.Context?.User?.Email ?? "",
+                        UserId = transactionInfo.Context?.User?.Id ?? "",
 
                         App = metadata?.Metadata?.Service?.Name,
                         Type = transactionInfo.Type,

@@ -41,7 +41,9 @@ namespace H2h.RubberBand.Database.Crud
     {
         public DateTime Time { get; set; }
         public string Host { get; set; }
-        public string User { get; set; }
+        public string UserEmail { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
         public string App { get; set; }
         public string Type { get; set; }
         public string Id { get; set; }
