@@ -3,15 +3,17 @@ using System;
 using H2h.RubberBand.Database.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace H2h.RubberBand.Database.Postgres.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    partial class PostgresContextModelSnapshot : ModelSnapshot
+    [Migration("20200726000001_InitTimescaleDb")]
+    partial class InitTimescaleDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,33 +23,6 @@ namespace H2h.RubberBand.Database.Postgres.Migrations
                 .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("Relational:Sequence:.EntityFrameworkHiLoSequence", "'EntityFrameworkHiLoSequence', '', '1', '10', '', '', 'Int64', 'False'");
-
-            modelBuilder.Entity("H2h.RubberBand.Database.Entities.ClientConfigEntity", b =>
-                {
-                    b.Property<long>("LineId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
-
-                    b.Property<int>("MaxAgeSeconds")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OptionValues")
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("ServiceEnvironment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ServiceName")
-                        .HasColumnType("text");
-
-                    b.HasKey("LineId");
-
-                    b.HasIndex("ServiceName", "ServiceEnvironment")
-                        .IsUnique();
-
-                    b.ToTable("apm_client_configuration");
-                });
 
             modelBuilder.Entity("H2h.RubberBand.Database.Entities.ErrorEntity", b =>
                 {

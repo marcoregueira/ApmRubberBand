@@ -1,6 +1,7 @@
 using H2h.RubberBand.Database.Crud;
 using H2h.RubberBand.Database.Database;
 using H2h.RubberBand.Database.Postgres;
+using H2h.RubberBand.Server.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,9 @@ namespace H2h.RubberBand.Server
             }
 
             services.AddTransient<IMetricCrud, MetricCrud>();
+            services.AddTransient<IConfigCrud, ConfigCrud>();
+            services.AddOptions<ApmOptions>()
+                .Bind(Configuration.GetSection("ApmOptions"));
 
             services.AddControllers();
 

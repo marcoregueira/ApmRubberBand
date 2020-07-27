@@ -12,6 +12,7 @@ namespace H2h.RubberBand.Database.Database
         public DbSet<LogEntity> Logs { get; set; }
         public DbSet<ErrorEntity> Errors { get; set; }
         public DbSet<TransactionEntity> Transactions { get; set; }
+        public DbSet<ClientConfigEntity> ClientConfig { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,9 @@ namespace H2h.RubberBand.Database.Database
             modelBuilder.Entity<MetricEntity>().HasIndex(x => x.Time);
             modelBuilder.Entity<ErrorEntity>().HasIndex(x => x.Time);
             modelBuilder.Entity<TransactionEntity>().HasIndex(x => x.Time);
+            modelBuilder.Entity<ClientConfigEntity>()
+                .HasIndex(x => new { x.ServiceName, x.ServiceEnvironment })
+                .IsUnique();
         }
     }
 }

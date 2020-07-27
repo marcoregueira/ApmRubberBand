@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -97,5 +99,44 @@ namespace H2h.RubberBand.Database.Entities
         public string TransactionId { get; set; }
 
         public string Data { get; set; }
+    }
+
+
+    [Table("apm_client_configuration")]
+    public class ClientConfigEntity : BaseTable
+    {
+        public string ServiceName { get; set; }
+        public string ServiceEnvironment { get; set; }
+
+
+        private Dictionary<string, string> optionsCache;
+
+        [NotMapped]
+        public Dictionary<string, string> Options
+        {
+            get
+            {
+                if (optionsCache == null && string.IsNullOrWhiteSpace(this.optionValues))
+                {
+                    optionsCache = new Dictionary<string, string>();
+                    return optionsCache;
+                }
+
+                optionsCache = JsonConvert.DeserializeObject<Dictionary<string, string>>(this.optionValues);
+                return optionsCache;
+            }
+        }
+
+        private string optionValues;
+        public int MaxAgeSeconds { get; set; }
+
+        public string OptionValues
+        {
+            get => optionValues; set
+            {
+                this.optionsCache = null;
+                optionValues = value;
+            }
+        }
     }
 }

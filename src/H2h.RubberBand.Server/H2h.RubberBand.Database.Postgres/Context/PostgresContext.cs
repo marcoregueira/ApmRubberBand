@@ -43,6 +43,9 @@ namespace H2h.RubberBand.Database.Postgres
             modelBuilder.Entity<TransactionEntity>()
                 .Property(x => x.Data).HasColumnType("jsonb");
 
+            modelBuilder.Entity<ClientConfigEntity>()
+                .Property(x => x.OptionValues).HasColumnType("jsonb");
+
             base.OnModelCreating(modelBuilder);
         }
 
