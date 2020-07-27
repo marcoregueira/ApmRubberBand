@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /app
+
+# Copy the main source project files
+COPY ./*.sln ./
+COPY ./*/*.csproj ./
+
+RUN ls
+RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
+
+# COPY *.csproj ./
+# COPY *.sln ./
+RUN dotnet restore
+COPY . ./
+RUN dotnet publish ./H2h.RubberBand.Server/H2h.RubberBand.Server.csproj -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+WORKDIR /app
+RUN ls 
+COPY --from=build /app/out .
+
+
+ENV Secret=cf3817ad-3b9b-4ec1-993c-d21cae3858f9
+ENV DatabaseProvider=postgres
+ENV ConnectionStrings:Postgres=
+ENV ConnectionStrings:SqlServer=
+
+EXPOSE 80
+ENTRYPOINT ["dotnet", "H2h.RubberBand.Server.dll"]

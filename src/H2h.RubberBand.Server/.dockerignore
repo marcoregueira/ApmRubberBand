@@ -1,0 +1,10 @@
+bin/
+obj/
+out/
+TestResults/
+.vscode/
+.idea/
+.vs/
+node_modules/
+.git/
+./Resources
