@@ -1,5 +1,6 @@
 # ApmRubberBand
-Simple APM server that saves events to Postgres, for use in development or tests.
+
+Simple replacement for Elasticsearch APM server that saves events to Postgres, for use in development, integration tests, performance tests or just monitoring aplications that don't require the power of a full Elastic stack.
 
 ## Description
 
