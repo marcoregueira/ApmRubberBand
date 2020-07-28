@@ -11,6 +11,8 @@ It has been tested with a couple of versions of apm-agent-dotnet. It should work
 
 Data in database is stored mostly as json. Some fields have been extracted as columns for ease of use.
 
+![alt tag](https://raw.githubusercontent.com/marcoregueira/ApmRubberBand/master/doc/images/transactionlog.png)
+
 ## Limitations
 
 ApmRubberBand only provides basic core functionality, therefore features such as authentication are not available. Mock responses are provided for handshaking and identification http requests.
