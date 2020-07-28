@@ -1,6 +1,7 @@
 using H2h.RubberBand.Database.Crud;
 using H2h.RubberBand.Database.Database;
 using H2h.RubberBand.Database.Postgres;
+using H2h.RubberBand.Database.SqlServer.Context;
 using H2h.RubberBand.Server.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,8 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Linq;
 
 namespace H2h.RubberBand.Server
 {
@@ -28,7 +27,7 @@ namespace H2h.RubberBand.Server
             switch (Configuration.GetValue<string>("DatabaseProvider"))
             {
                 case "sqlserver":
-                    //services.AddScoped<BaseContext, PostgresContext>();
+                    services.AddScoped<BaseContext, SqlServerContext>();
                     break;
                 default:
                     services.AddScoped<BaseContext, PostgresContext>();

@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\H2h.ElasticSearch.Model\H2h.ElasticSearch.Model.csproj" />
     <ProjectReference Include="..\H2h.RubberBand.Database.Postgres\H2h.RubberBand.Database.Postgres.csproj" />
+    <ProjectReference Include="..\H2h.RubberBand.Database.SqlServer\H2h.RubberBand.Database.SqlServer.csproj" />
     <ProjectReference Include="..\H2h.RubberBand.Database\H2h.RubberBand.Database.csproj" />
   </ItemGroup>
 
