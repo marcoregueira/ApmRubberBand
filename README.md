@@ -16,7 +16,9 @@ Data in database is stored mostly as json. Some fields have been extracted as co
 
 ## Limitations
 
-ApmRubberBand only provides basic core functionality, therefore features such as authentication are not available. Mock responses are provided for handshaking and identification http requests.
+ApmRubberBand only provides basic core functionality, therefore features such as authentication are not available. Mock responses are provided for handshaking and identification http requests. Message processing pipelines are not provided too.
+
+Basic RUM functionality has been provided, but there are none of the limitations used to protect the server against flood. CORS is configured globally and not specifically for the RUM endpoint. Note that currently, if you expose this APM server you're exposing all endpoints with unlimited access.
 
 ## Try it out
 
@@ -44,7 +46,6 @@ services:
     environment:
       - POSTGRES_USER=apm_root
       - POSTGRES_PASSWORD=apm_password
-      - POSTGRES_DB
 
   rubberband:
     depends_on:
@@ -59,8 +60,10 @@ services:
     environment:
       - ConnectionStrings:Postgres=Host=timescale;Username=apm_root;Password=apm_password;Database=apm_rubberband
       - DbEngine=postgres
+      - AllowedHosts=*
       - ApmOptions:AutoCreateCentralConfiguration=true
       - ApmOptions:DefaultCentralConfigurationMaxAge=300
+      - ApmOptions:RumEnabled=true
 
   sampleaspnetcoreapp:
     depends_on:
