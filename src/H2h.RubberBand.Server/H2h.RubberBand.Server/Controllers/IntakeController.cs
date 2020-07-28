@@ -2,8 +2,10 @@
 using H2h.RubberBand.Database.Crud;
 using H2h.RubberBand.Database.Database;
 using H2h.RubberBand.Server.Extensions;
+using H2h.RubberBand.Server.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,10 +21,16 @@ namespace H2h.RubberBand.Server.Controllers
     {
         private readonly ILogger<IntakeController> _logger;
         private readonly BaseContext context;
+        readonly IOptions<ApmOptions> options;
         private IMetricCrud _crud { get; }
 
-        public IntakeController(ILogger<IntakeController> logger, IMetricCrud crud, BaseContext context)
+        public IntakeController(
+            ILogger<IntakeController> logger,
+            IOptions<ApmOptions> options,
+            IMetricCrud crud,
+            BaseContext context)
         {
+            this.options = options;
             this.context = context;
             _logger = logger;
             _crud = crud;
@@ -39,6 +47,29 @@ namespace H2h.RubberBand.Server.Controllers
             if (!package.StartsWith("{"))
                 return BadRequest();
             return Ok();
+        }
+
+        [HttpPost("/intake/v2/rum/events")]
+        public async Task<IActionResult> PostRumAsync()
+        {
+            // NOTE: CORS ACCESS NEED TO BE ALLOWED
+            // APM Also allows some other configuration options not yet considered or planned
+
+            // https://www.elastic.co/guide/en/apm/server/current/configuration-rum.html
+
+            // event_rate.limit
+            // event_rate.lru_size
+            // allow_origins
+            // allow_headers
+            // library_pattern
+            // exclude_from_grouping
+            // source_mapping.enabled
+
+            // https://www.elastic.co/guide/en/apm/server/current/configuring-ingest-node.html#default-pipeline
+            
+            return options.Value.RumEnabled ?
+                await PostAsync()
+                : Forbid();
         }
 
         [HttpPost("/intake/v2/events")]
@@ -63,7 +94,7 @@ namespace H2h.RubberBand.Server.Controllers
 
                 if (metadata == null)
                 {
-                    Console.WriteLine("no hay metadatos");
+                    Console.WriteLine("No metadata");
                     continue;
                 }
 
@@ -82,8 +113,7 @@ namespace H2h.RubberBand.Server.Controllers
                     _crud.Insert(dataDb);
                     continue;
                 }
-                else
-                if (part.StartsWith("{\"error\":"))
+                else if (part.StartsWith("{\"error\":"))
                 {
                     var errorSet = JsonConvert.DeserializeObject<ErrorsetDto>(part, new ApmDateTimeConverter());
                     var errorDetailsJson = errorSet.Error.ToString();
@@ -104,9 +134,12 @@ namespace H2h.RubberBand.Server.Controllers
                     _crud.Insert(dataDb);
                     continue;
                 }
-                else
-                if (part.StartsWith("{\"log\":"))
+                else if (part.StartsWith("{\"log\":"))
                 {
+                    // THIS IS AN EXPERIMENTAL PART NOT FROM APM
+                    // IT IS INTENDED TO SAVE LOG RECORDS USING AN EXTENDED APM CLIENT
+                    // OR A CUSTOM NLog ADAPTER
+
                     var errorSet = JsonConvert.DeserializeObject<LogDto>(part, new ApmDateTimeConverter());
                     var errorDetailsJson = errorSet.LogInfo?.ToString();
                     var errorInfo = errorSet.Log; //JsonConvert.DeserializeObject<LogDto.LogDtoInternal>(errorDetailsJson, new MyDateTimeConverter());
