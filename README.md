@@ -15,3 +15,63 @@ Data in database is stored mostly as json. Some fields have been extracted as co
 
 ApmRubberBand only provides basic core functionality, therefore features such as authentication are not available. Mock responses are provided for handshaking and identification http requests.
 
+## Try it out
+
+This is a sample docker-compose file using Postgres/TimescaleDb for storage, RubberBand as APM server and one of the examples provided with dotnet-apm-agent: SampleAspNetCoreApp serving as monitorized application. Once you have it running, you can connect to Postgres/TimescaleDb to see the transactions, errors and server metrics.
+
+```
+version: '3.4'
+
+networks:
+  network01:
+    driver: bridge
+      
+services:
+
+  timescale:
+    image: timescale/timescaledb:latest-pg10
+    container_name: timescale
+    restart: unless-stopped
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - network01 
+    ports:
+      - "5432:5432" 
+    environment:
+      - POSTGRES_USER=apm_root
+      - POSTGRES_PASSWORD=apm_password
+      - POSTGRES_DB
+
+  rubberband:
+    depends_on:
+      - timescale
+    image: h2hsoftware/apmrubberband
+    container_name: rubberband
+    restart: unless-stopped
+    networks:
+      - network01 
+    ports:
+      - "8200:80" 
+    environment:
+      - ConnectionStrings:Postgres=Host=timescale;Username=apm_root;Password=apm_password;Database=apm_rubberband
+      - DbEngine=postgres
+      - ApmOptions:AutoCreateCentralConfiguration=true
+      - ApmOptions:DefaultCentralConfigurationMaxAge=300
+
+  sampleaspnetcoreapp:
+    depends_on:
+      - rubberband
+    image: h2hsoftware/elasticsearch_sampleaspnetcoreapp
+    container_name: sampleaspnetcoreapp
+    restart: unless-stopped
+    networks:
+      - network01 
+    ports:
+      - "80:80" 
+    environment:
+      - ElasticApm:ServerUrls=http://rubberband:80
+      
+volumes:
+  dbdata:
+```
