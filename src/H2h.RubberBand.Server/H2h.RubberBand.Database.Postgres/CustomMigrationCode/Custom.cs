@@ -20,33 +20,40 @@ namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
             // All hypertables are configured using defaults. That is, all chuks are 7 days long.
             // It could be necessary to make them smaller, for instance 1 day.
 
-            try
-            {
-                migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;", suppressTransaction: true);
-            }
-            catch
-            {
-                Console.WriteLine("::: -->TimescaleDb not enabled");
-                return;
-            }
-
             migrationBuilder.Sql(@"
-                ALTER TABLE public.apm_errors DROP CONSTRAINT ""PK_apm_errors"" ;
-                ALTER TABLE public.apm_errors ADD CONSTRAINT  ""PK_apm_errors"" PRIMARY KEY(""LineId"", ""Time"");
-                SELECT create_hypertable('apm_errors', 'Time', chunk_time_interval => INTERVAL '1 day');
 
-                ALTER TABLE public.apm_metrics DROP CONSTRAINT ""PK_apm_metrics"" ;
-                ALTER TABLE public.apm_metrics ADD CONSTRAINT  ""PK_apm_metrics"" PRIMARY KEY(""LineId"", ""Time"");
-                SELECT create_hypertable('apm_metrics', 'Time', chunk_time_interval => INTERVAL '1 day');
+                drop FUNCTION if exists public.enable_timescale; 
 
-                ALTER TABLE public.apm_transaction DROP CONSTRAINT ""PK_apm_transaction"" ;
-                ALTER TABLE public.apm_transaction ADD CONSTRAINT  ""PK_apm_transaction"" PRIMARY KEY(""LineId"", ""Time"");
-                SELECT create_hypertable('apm_transaction', 'Time', chunk_time_interval => INTERVAL '1 day');
+				CREATE FUNCTION enable_timescale() RETURNS text AS
+				$$
+				begin
 
-                ALTER TABLE public.apm_log DROP CONSTRAINT ""PK_apm_log"" ;
-                ALTER TABLE public.apm_log ADD CONSTRAINT  ""PK_apm_log"" PRIMARY KEY(""LineId"", ""Time"");
-                SELECT create_hypertable('apm_log', 'Time', chunk_time_interval => INTERVAL '1 day');
 
+				    start transaction;
+					    CREATE EXTENSION IF NOT EXISTS timescaledb cascade;	
+				    commit;
+
+                    ALTER TABLE public.apm_errors DROP CONSTRAINT ""PK_apm_errors"" ;
+                    ALTER TABLE public.apm_errors ADD CONSTRAINT  ""PK_apm_errors"" PRIMARY KEY(""LineId"", ""Time"");
+                    SELECT create_hypertable('apm_errors', 'Time', chunk_time_interval => INTERVAL '1 day');
+
+                    ALTER TABLE public.apm_metrics DROP CONSTRAINT ""PK_apm_metrics"" ;
+                    ALTER TABLE public.apm_metrics ADD CONSTRAINT  ""PK_apm_metrics"" PRIMARY KEY(""LineId"", ""Time"");
+                    SELECT create_hypertable('apm_metrics', 'Time', chunk_time_interval => INTERVAL '1 day');
+
+                    ALTER TABLE public.apm_transaction DROP CONSTRAINT ""PK_apm_transaction"" ;
+                    ALTER TABLE public.apm_transaction ADD CONSTRAINT  ""PK_apm_transaction"" PRIMARY KEY(""LineId"", ""Time"");
+                    SELECT create_hypertable('apm_transaction', 'Time', chunk_time_interval => INTERVAL '1 day');
+
+                    ALTER TABLE public.apm_log DROP CONSTRAINT ""PK_apm_log"" ;
+                    ALTER TABLE public.apm_log ADD CONSTRAINT  ""PK_apm_log"" PRIMARY KEY(""LineId"", ""Time"");
+                    SELECT create_hypertable('apm_log', 'Time', chunk_time_interval => INTERVAL '1 day');
+
+				END;
+				$$
+				LANGUAGE plpgsql;
+
+				select * from enable_timescale ();
             ", suppressTransaction: true);
         }
 
