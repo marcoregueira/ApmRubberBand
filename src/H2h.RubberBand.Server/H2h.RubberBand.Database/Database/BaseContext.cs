@@ -5,8 +5,13 @@ namespace H2h.RubberBand.Database.Database
 {
     public class BaseContext : DbContext
     {
-        public BaseContext() : base() { }
-        public BaseContext(DbContextOptions<BaseContext> options) : base(options) { }
+        public BaseContext() : base()
+        {
+        }
+
+        public BaseContext(DbContextOptions<BaseContext> options) : base(options)
+        {
+        }
 
         public DbSet<MetricEntity> Metrics { get; set; }
         public DbSet<LogEntity> Logs { get; set; }

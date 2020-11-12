@@ -1,6 +1,5 @@
 ﻿using H2h.ElasticSearch.Model.Serialization;
 using Newtonsoft.Json;
-using System;
 
 namespace H2h.ElasticSearch.Model.IntakeModel
 {

@@ -21,7 +21,7 @@ namespace H2h.RubberBand.Server.Controllers
     {
         private readonly ILogger<IntakeController> _logger;
         private readonly BaseContext context;
-        readonly IOptions<ApmOptions> options;
+        private readonly IOptions<ApmOptions> options;
         private IMetricCrud _crud { get; }
 
         public IntakeController(
@@ -66,7 +66,7 @@ namespace H2h.RubberBand.Server.Controllers
             // source_mapping.enabled
 
             // https://www.elastic.co/guide/en/apm/server/current/configuring-ingest-node.html#default-pipeline
-            
+
             return options.Value.RumEnabled ?
                 await PostAsync()
                 : Forbid();
@@ -301,12 +301,12 @@ namespace H2h.RubberBand.Server.Controllers
             var package = reader.ReadToEndAsync().Result ?? string.Empty;
             return Ok(new { });
         }
-
     }
 
     public class ApmDateTimeConverter : Newtonsoft.Json.JsonConverter
     {
         private static readonly DateTime BaseDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         public override bool CanConvert(Type objectType) => objectType == typeof(DateTime);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

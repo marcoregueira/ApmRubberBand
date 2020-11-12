@@ -1,8 +1,6 @@
 ﻿using H2h.RubberBand.Database.Database;
-using H2h.RubberBand.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Reflection;
 
 namespace H2h.RubberBand.Database.SqlServer.Context
@@ -14,8 +12,7 @@ namespace H2h.RubberBand.Database.SqlServer.Context
 		 dotnet ef database update --context PostgresContext
 		*/
 
-
-        readonly IConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         public SqlServerContext(IConfiguration configuration) : base()
         {

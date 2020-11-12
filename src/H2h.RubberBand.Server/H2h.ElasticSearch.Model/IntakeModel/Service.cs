@@ -1,12 +1,13 @@
 ﻿using H2h.ElasticSearch.Model.Serialization;
 using Newtonsoft.Json;
-using System;
 
 namespace H2h.ElasticSearch.Model.IntakeModel
 {
     public class Service
     {
-        private Service() { }
+        private Service()
+        {
+        }
 
         public AgentC Agent { get; set; }
 
@@ -25,7 +26,5 @@ namespace H2h.ElasticSearch.Model.IntakeModel
         public string Version { get; set; }
 
         public Node Node { get; set; }
-
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace H2h.ElasticSearch.Model.Serialization
+﻿namespace H2h.ElasticSearch.Model.Serialization
 {
     internal static class Consts
     {
@@ -11,4 +9,3 @@ namespace H2h.ElasticSearch.Model.Serialization
         internal static string Redacted = "[REDACTED]";
     }
 }
-

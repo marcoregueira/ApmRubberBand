@@ -103,13 +103,11 @@ namespace H2h.RubberBand.Database.Entities
         public string Data { get; set; }
     }
 
-
     [Table("apm_client_configuration")]
     public class ClientConfigEntity : BaseTable
     {
         public string ServiceName { get; set; }
         public string ServiceEnvironment { get; set; }
-
 
         private Dictionary<string, string> optionsCache;
 

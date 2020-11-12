@@ -29,6 +29,7 @@ namespace H2h.RubberBand.Server
                 case "sqlserver":
                     services.AddScoped<BaseContext, SqlServerContext>();
                     break;
+
                 default:
                     services.AddScoped<BaseContext, PostgresContext>();
                     break;
@@ -40,7 +41,6 @@ namespace H2h.RubberBand.Server
                 .Bind(Configuration.GetSection("ApmOptions"));
 
             services.AddControllers();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

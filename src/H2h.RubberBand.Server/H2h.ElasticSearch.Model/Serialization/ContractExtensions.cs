@@ -14,4 +14,3 @@ namespace H2h.ElasticSearch.Model.Serialization
             arg < 0 ? throw new ArgumentException($"Argument {argName} should not be negative but its value is {arg}", argName) : arg;
     }
 }
-

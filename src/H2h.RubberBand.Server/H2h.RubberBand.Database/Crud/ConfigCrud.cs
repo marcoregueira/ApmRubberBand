@@ -22,14 +22,14 @@ namespace H2h.RubberBand.Database.Crud
         public async Task<(int? maxAgeSeconds, Dictionary<string, string> config)> GetConfigAsync(string serviceName, string environment)
         {
             // SEE CentralConfigReader.UpdateConfigurationValues for an up to date list of allowed values
-            // CaptureBody                     
-            // CaptureBodyContentTypes         
-            // TransactionMaxSpans             
-            // TransactionSampleRate           
-            // CaptureHeaders                  
-            // LogLevel                        
+            // CaptureBody
+            // CaptureBodyContentTypes
+            // TransactionMaxSpans
+            // TransactionSampleRate
+            // CaptureHeaders
+            // LogLevel
             // SpanFramesMinDurationInMilliseconds
-            // StackTraceLimit                    
+            // StackTraceLimit
 
             var config = await context.ClientConfig
                 .Where(x => x.ServiceName == serviceName || x.ServiceEnvironment == environment)
@@ -45,14 +45,14 @@ namespace H2h.RubberBand.Database.Crud
             Dictionary<string, string> values = null)
         {
             // SEE: CentralConfigReader.UpdateConfigurationValues for an up to date list of allowed values
-            // CaptureBody                     
-            // CaptureBodyContentTypes         
-            // TransactionMaxSpans             
-            // TransactionSampleRate           
-            // CaptureHeaders                  
-            // LogLevel                        
+            // CaptureBody
+            // CaptureBodyContentTypes
+            // TransactionMaxSpans
+            // TransactionSampleRate
+            // CaptureHeaders
+            // LogLevel
             // SpanFramesMinDurationInMilliseconds
-            // StackTraceLimit                    
+            // StackTraceLimit
 
             var config = await context.ClientConfig
                 .Where(x => x.ServiceName == serviceName || x.ServiceEnvironment == environment)

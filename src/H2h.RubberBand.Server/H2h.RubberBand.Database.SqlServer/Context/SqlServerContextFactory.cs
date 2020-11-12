@@ -1,7 +1,6 @@
 ﻿using H2h.RubberBand.Database.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
 
 namespace H2h.RubberBand.Database.SqlServer.Context
 {

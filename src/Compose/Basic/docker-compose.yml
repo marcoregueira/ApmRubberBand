@@ -30,13 +30,15 @@ services:
     networks:
       - network01 
     ports:
-      - "8200:80" 
+      - "8200:80"  
     environment:
       - ConnectionStrings:Postgres=Host=timescale;Username=apm_root;Password=apm_password;Database=apm_rubberband
       - DbEngine=postgres
+      - AllowedHosts=*
       - ApmOptions:AutoCreateCentralConfiguration=true
       - ApmOptions:DefaultCentralConfigurationMaxAge=300
-
+      - ApmOptions:RumEnabled=true
+      
   sampleaspnetcoreapp:
     depends_on:
       - rubberband
@@ -46,9 +48,9 @@ services:
     networks:
       - network01 
     ports:
-      - "80:80" 
+      - "80:80"
     environment:
-      - ElasticApm:ServerUrls=http://rubberband:80
+      - ElasticApm:ServerUrls=http://rubberband
       
 volumes:
   dbdata:

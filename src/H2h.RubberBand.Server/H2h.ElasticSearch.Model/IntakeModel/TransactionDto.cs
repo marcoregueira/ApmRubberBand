@@ -10,11 +10,11 @@ namespace H2h.ElasticSearch.Model.IntakeModel
 
         public TransactionDtoInternal TransactionInfo { get; set; }
 
-
         public class TransactionDtoInternal
         {
             //"context":{},
             public decimal duration { get; set; }
+
             public string id { get; set; }
             public bool sampled { get; set; }
             public string name { get; set; }

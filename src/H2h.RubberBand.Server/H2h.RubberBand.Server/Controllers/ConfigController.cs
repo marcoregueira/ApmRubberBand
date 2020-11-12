@@ -3,17 +3,15 @@ using H2h.RubberBand.Server.ETag;
 using H2h.RubberBand.Server.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace H2h.RubberBand.Server.Controllers
 {
     public class ConfigController : Controller
     {
-        readonly ApmOptions apmOptions;
-        readonly IConfigCrud crud;
+        private readonly ApmOptions apmOptions;
+        private readonly IConfigCrud crud;
 
         public ConfigController(IConfigCrud crud, IOptions<ApmOptions> apmOptions)
         {

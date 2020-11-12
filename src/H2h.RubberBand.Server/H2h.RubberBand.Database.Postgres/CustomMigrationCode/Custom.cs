@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
 {
@@ -11,7 +8,7 @@ namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
         /// In this migration we enable TimescaleDb if available
         /// This script won't work if there is data at the tables
         /// We don't provide a Down procedure
-        /// 
+        ///
         /// Most likely, future updates won't work if tables have any data
         /// </summary>
         /// <param name="migrationBuilder"></param>
@@ -22,15 +19,14 @@ namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
 
             migrationBuilder.Sql(@"
 
-                drop FUNCTION if exists public.enable_timescale; 
+                drop FUNCTION if exists public.enable_timescale;
 
 				CREATE FUNCTION enable_timescale() RETURNS text AS
 				$$
 				begin
 
-
 				    start transaction;
-					    CREATE EXTENSION IF NOT EXISTS timescaledb cascade;	
+					    CREATE EXTENSION IF NOT EXISTS timescaledb cascade;
 				    commit;
 
                     ALTER TABLE public.apm_errors DROP CONSTRAINT ""PK_apm_errors"" ;
@@ -56,6 +52,5 @@ namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
 				select * from enable_timescale ();
             ", suppressTransaction: true);
         }
-
     }
 }

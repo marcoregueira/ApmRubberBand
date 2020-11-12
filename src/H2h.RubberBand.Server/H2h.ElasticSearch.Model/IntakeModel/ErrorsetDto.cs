@@ -6,6 +6,7 @@ namespace H2h.ElasticSearch.Model.IntakeModel
     public class ErrorsetDto
     {
         public JToken Error { get; set; }
+
         public class ErrorDtoInternal
         {
             public string Id { get; set; }
