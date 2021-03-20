@@ -23,33 +23,34 @@ namespace H2h.RubberBand.Database.Postgres.CustomMigrationCode
 
 				CREATE FUNCTION enable_timescale() RETURNS text AS
 				$$
-				begin
-
-				    start transaction;
-					    CREATE EXTENSION IF NOT EXISTS timescaledb cascade;
-				    commit;
+				BEGIN
+					
+                    CREATE EXTENSION IF NOT EXISTS timescaledb cascade;
 
                     ALTER TABLE public.apm_errors DROP CONSTRAINT ""PK_apm_errors"" ;
                     ALTER TABLE public.apm_errors ADD CONSTRAINT  ""PK_apm_errors"" PRIMARY KEY(""LineId"", ""Time"");
-                    SELECT create_hypertable('apm_errors', 'Time', chunk_time_interval => INTERVAL '1 day');
+                    PERFORM create_hypertable('apm_errors', 'Time', chunk_time_interval => INTERVAL '1 day');
 
                     ALTER TABLE public.apm_metrics DROP CONSTRAINT ""PK_apm_metrics"" ;
                     ALTER TABLE public.apm_metrics ADD CONSTRAINT  ""PK_apm_metrics"" PRIMARY KEY(""LineId"", ""Time"");
-                    SELECT create_hypertable('apm_metrics', 'Time', chunk_time_interval => INTERVAL '1 day');
+                    PERFORM create_hypertable('apm_metrics', 'Time', chunk_time_interval => INTERVAL '1 day');
 
                     ALTER TABLE public.apm_transaction DROP CONSTRAINT ""PK_apm_transaction"" ;
                     ALTER TABLE public.apm_transaction ADD CONSTRAINT  ""PK_apm_transaction"" PRIMARY KEY(""LineId"", ""Time"");
-                    SELECT create_hypertable('apm_transaction', 'Time', chunk_time_interval => INTERVAL '1 day');
+                    PERFORM create_hypertable('apm_transaction', 'Time', chunk_time_interval => INTERVAL '1 day');
 
                     ALTER TABLE public.apm_log DROP CONSTRAINT ""PK_apm_log"" ;
                     ALTER TABLE public.apm_log ADD CONSTRAINT  ""PK_apm_log"" PRIMARY KEY(""LineId"", ""Time"");
-                    SELECT create_hypertable('apm_log', 'Time', chunk_time_interval => INTERVAL '1 day');
-
+                    PERFORM create_hypertable('apm_log', 'Time', chunk_time_interval => INTERVAL '1 day');
+                    
+                    RETURN 1
+                EXCEPTION;
+                    -- by now we do nothing here. It would be great to save a log to the log table, for instance
 				END;
 				$$
 				LANGUAGE plpgsql;
 
-				select * from enable_timescale ();
+				SELECT enable_timescale();
             ", suppressTransaction: true);
         }
     }
