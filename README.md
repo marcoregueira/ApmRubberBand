@@ -20,6 +20,10 @@ ApmRubberBand only provides basic core functionality, therefore features such as
 
 Basic RUM functionality has been provided, but there are none of the limitations used to protect the server against flood. CORS is configured globally and not specifically for the RUM endpoint. Note that currently, if you expose this APM server you're exposing all endpoints with unlimited access.
 
+### Agent configuration
+
+ApmRubberBand provides basic support for central configuration. To use this feature you need to access to table apm_client_configuration. When a new client connects to the server, a new record is created there allowing to enable and disable agent features remotely.
+
 ## Try it out
 
 This is a sample docker-compose file using Postgres/TimescaleDb for storage, RubberBand as APM server and one of the examples provided with dotnet-apm-agent: SampleAspNetCoreApp serving as monitorized application. Once you have it running, you can connect to Postgres/TimescaleDb to see the transactions, errors and server metrics.
