@@ -241,6 +241,7 @@ namespace H2h.RubberBand.Server.Controllers
                     var dataDb = new TransactionData()
                     {
                         Time = time,
+                        Name = spanInfo.name,
                         Host = metadata?.Metadata?.System.HostName,
                         App = metadata?.Metadata?.Service?.Name,
                         Type = spanInfo.Type,
