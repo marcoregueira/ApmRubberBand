@@ -24,7 +24,7 @@ namespace H2h.RubberBand.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            switch (Configuration.GetValue<string>("DatabaseProvider"))
+            switch (Configuration.GetValue<string>("DbEngine"))
             {
                 case "sqlserver":
                     services.AddScoped<BaseContext, SqlServerContext>();
@@ -53,7 +53,7 @@ namespace H2h.RubberBand.Server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
