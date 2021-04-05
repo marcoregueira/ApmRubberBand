@@ -38,7 +38,7 @@ networks:
 services:
 
   timescale:
-    image: timescale/timescaledb:latest-pg10
+    image: timescale/timescaledb:latest-pg12
     container_name: timescale
     restart: unless-stopped
     volumes:
