@@ -1,19 +1,16 @@
 ﻿using H2h.RubberBand.Database.Database;
 using H2h.RubberBand.Database.Entities;
-using Microsoft.Extensions.Configuration;
 
 namespace H2h.RubberBand.Database.Crud
 {
     public class MetricCrud : IMetricCrud
     {
-        public IConfiguration Configuration { get; }
 
         private readonly string _connectionString;
         private readonly BaseContext context;
 
-        public MetricCrud(IConfiguration configuration, BaseContext context)
+        public MetricCrud(BaseContext context)
         {
-            Configuration = configuration;
             this.context = context;
         }
 
