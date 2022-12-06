@@ -2,8 +2,6 @@ name: Publish to Dockerhub
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*.*.*"      
 
@@ -26,9 +24,18 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Extract metadata for the Docker image
+      id: meta
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      with:
+        images: h2hsoftware/apmrubberband
         
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.2.0
       with:
-        push: true
-        tags: h2hsoftware/apmrubberband:latest
+        context: src/H2h.RubberBand.Server
+        file: src/H2h.RubberBand.Server/H2h.RubberBand.Server/Dockerfile
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
