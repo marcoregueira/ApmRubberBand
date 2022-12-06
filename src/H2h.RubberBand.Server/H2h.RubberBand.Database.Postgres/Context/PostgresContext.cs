@@ -2,6 +2,8 @@
 using H2h.RubberBand.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
+using System;
 using System.Reflection;
 
 namespace H2h.RubberBand.Database.Postgres
@@ -18,6 +20,8 @@ namespace H2h.RubberBand.Database.Postgres
         public PostgresContext(IConfiguration configuration) : base()
         {
             this.configuration = configuration;
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
 
         internal PostgresContext(DbContextOptions<BaseContext> options) : base(options)
