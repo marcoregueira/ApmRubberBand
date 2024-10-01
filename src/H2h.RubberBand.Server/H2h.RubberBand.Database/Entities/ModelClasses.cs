@@ -38,6 +38,12 @@ namespace H2h.RubberBand.Database.Entities
         public string Host { get; set; }
 
         public string Data { get; set; }
+        public decimal? System_cpu_total_norm_pct { get; set; }
+        public decimal? System_memory_actual_free { get; set; }
+        public decimal? System_process_memory_size { get; set; }
+        public decimal? System_process_memory_rss_bytes { get; set; }
+        public decimal? System_process_cpu_total_norm_pct { get; set; }
+        public decimal? System_process_cgroup_memory_mem_usage_bytes { get; set; }
     }
 
     [Table("apm_log")]

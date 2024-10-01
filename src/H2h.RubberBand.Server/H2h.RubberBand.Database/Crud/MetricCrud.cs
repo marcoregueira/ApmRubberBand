@@ -1,5 +1,7 @@
 ﻿using H2h.RubberBand.Database.Database;
 using H2h.RubberBand.Database.Entities;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace H2h.RubberBand.Database.Crud
 {
@@ -22,6 +24,14 @@ namespace H2h.RubberBand.Database.Crud
                 Host = data.Host,
                 Time = data.Time
             };
+
+            var knownMetrics = JsonSerializer.Deserialize<Dictionary<string, decimal?>>(data.Metrics);
+            metric.System_cpu_total_norm_pct = knownMetrics.GetValueOrDefault("system.cpu.total.norm.pct");
+            metric.System_memory_actual_free = knownMetrics.GetValueOrDefault("system.memory.actual.free");
+            metric.System_process_memory_size = knownMetrics.GetValueOrDefault("system.process.memory.size");
+            metric.System_process_memory_rss_bytes = knownMetrics.GetValueOrDefault("system.process.memory.rss.bytes");
+            metric.System_process_cpu_total_norm_pct = knownMetrics.GetValueOrDefault("system.process.cpu.total.norm.pct");
+            metric.System_process_cgroup_memory_mem_usage_bytes = knownMetrics.GetValueOrDefault("system.process.cgroup.memory.mem.usage.bytes");
 
             context.Add(metric);
         }
