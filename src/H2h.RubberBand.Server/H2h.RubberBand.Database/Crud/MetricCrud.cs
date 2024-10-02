@@ -32,6 +32,8 @@ namespace H2h.RubberBand.Database.Crud
             metric.System_process_memory_rss_bytes = knownMetrics.GetValueOrDefault("system.process.memory.rss.bytes");
             metric.System_process_cpu_total_norm_pct = knownMetrics.GetValueOrDefault("system.process.cpu.total.norm.pct");
             metric.System_process_cgroup_memory_mem_usage_bytes = knownMetrics.GetValueOrDefault("system.process.cgroup.memory.mem.usage.bytes");
+            metric.System_process_cgroup_memory_stats_inactive_file_bytes = knownMetrics.GetValueOrDefault("system.process.cgroup.memory.stats.inactive_file_bytes");
+            metric.System_memory_total = knownMetrics.GetValueOrDefault("system.memory.total");
 
             context.Add(metric);
         }
